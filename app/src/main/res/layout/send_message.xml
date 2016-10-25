@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:orientation="vertical"
+    tools:context=".S1">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="#6d96b2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Text Message"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="50dp" />
+
+        <EditText
+            android:layout_width="345dp"
+            android:layout_height="215dp"
+            android:id="@+id/editText"
+            android:layout_gravity="center"
+            android:text="Enter Your Message Here"
+            android:textIsSelectable="true"
+            android:textAllCaps="true"
+            android:textAlignment="center"
+            android:textColor="@color/abc_color_highlight_material"
+            android:layout_marginBottom="30dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:id="@+id/button2"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="100dp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="18dp" />
+
+    </FrameLayout>
+</LinearLayout>
