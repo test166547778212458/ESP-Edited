@@ -46,7 +46,7 @@
             android:background="#cbcbcb"
             android:text="Enter pin here"
             android:textAlignment="center"
-            android:textIsSelectable="true"
+            android:textIsSelectable="false"
             android:textSize="25dp" />
 
         <Button

@@ -56,6 +56,7 @@
             android:src="@drawable/hhh"
             android:background="#6d96b2"
             android:layout_marginTop="10dp"
+            android:onClick="back"
             android:layout_marginLeft="10dp" />
 
     </FrameLayout>
