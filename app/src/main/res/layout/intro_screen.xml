@@ -4,13 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:orientation="vertical"
-    tools:context=".S1">
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
         android:background="#6d96b2">
 
         <TextView
@@ -30,8 +28,8 @@
             android:layout_height="288dp"
             android:id="@+id/imageView"
             android:layout_gravity="center"
-            android:src="@drawable/EM"
-            android:layout_marginTop="60dp" />
+            android:layout_marginTop="60dp"
+            android:src="@drawable/em1" />
 
     </FrameLayout>
 </LinearLayout>

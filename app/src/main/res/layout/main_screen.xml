@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
-    tools:context=".S1">
+    tools:context="com.example.faraz.esp.MenuActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_gravity="left|center_vertical"
             android:layout_marginBottom="50dp"
             android:layout_marginLeft="80dp"
-            android:src="@drawable/SOS"
+            android:src="@drawable/sos2"
             android:background="#6d96b2"
             android:adjustViewBounds="false" />
 
@@ -44,7 +44,7 @@
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="80dp"
             android:layout_marginBottom="50dp"
-            android:src="@drawable/Call"
+            android:src="@drawable/call1"
             android:background="#6d96b2" />
 
         <ImageButton
