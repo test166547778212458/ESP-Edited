@@ -28,8 +28,8 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void goToRecScrn(View view) {
-        //startActivity(new Intent(MenuActivity.this, SendVoicActivity.class));
-        Toast.makeText(MenuActivity.this, "Record Message Code HERE", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(MenuActivity.this, SendVoicActivity.class));
+        //Toast.makeText(MenuActivity.this, "Record Message Code HERE", Toast.LENGTH_LONG).show();
     }
 
     public void goToContScrn(View view) {

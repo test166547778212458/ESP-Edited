@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
-    tools:context="com.example.faraz.esp.SendVoicActivity">
+    tools:context=".SendVoicActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -54,6 +54,17 @@
             android:backgroundTint="@color/abc_background_cache_hint_selector_material_light"
             android:layout_marginBottom="80dp"
             android:layout_marginRight="27dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton11"
+            android:layout_gravity="left|top"
+            android:src="@drawable/hhh"
+            android:background="#6d96b2"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:onClick="back" />
 
         <TextView
             android:layout_width="wrap_content"
