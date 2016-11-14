@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">ESP</string>
     <string name="action_settings">Settings</string>
+    <string name="eymh">Enter Your Message Here</string>
+    <string name="yswttth">Your speech will transfare to text here</string>
 </resources>
