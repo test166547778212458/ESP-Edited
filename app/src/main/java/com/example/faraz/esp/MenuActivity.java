@@ -6,12 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-public class MenuActivity extends AppCompatActivity {
+import Location.LocationFinder;
+
+public class MenuActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Toast.makeText(this, ,Toast.LENGTH_LONG).show();
     }
 
     public void SendCoords(View view) {
