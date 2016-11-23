@@ -3,4 +3,19 @@
     <string name="action_settings">Settings</string>
     <string name="eymh">Enter Your Message Here</string>
     <string name="yswttth">Your speech will transfare to text here</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="email">E-mail</string>
+    <string name="back">Back</string>
+    <string name="send">Send</string>
+    <string name="enter">Enter</string>
+    <string name="micicon">Mic Icon</string>
+    <string name="textmsg">Text Message</string>
+    <string name="enterurmsghere">Enter Your Message Here</string>
+    <string name="enterpinhere">Enter PIN Here</string>
+    <string name="Oryoucanrecordyourvoice">you can record your voice</string>
+    <string name="urvtot">your voice will converted to text here</string>
+    <string name="server">http://yahya-app.ddns.net/</string>
+    <string name="path">android/getData.php</string>
 </resources>

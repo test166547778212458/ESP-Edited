@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Text Message"
+            android:text="@string/textmsg"
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal|top"
             android:layout_marginTop="50dp" />
@@ -24,24 +24,27 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send"
+            android:text="@string/send"
             android:id="@+id/button2"
-            android:layout_gravity="right|bottom"
+            android:layout_gravity="end|bottom"
             android:layout_marginBottom="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textSize="18dp" />
+            android:textSize="18sp"
+            android:onClick="send" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton11"
-            android:layout_gravity="left|top"
+            android:layout_gravity="start|top"
             android:src="@drawable/hhh"
             android:background="@android:color/transparent"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:onClick="back" />
 
         <EditText
@@ -59,12 +62,13 @@
         <TextView
             android:layout_width="245dp"
             android:layout_height="wrap_content"
-            android:text="Or you can record your voice "
+            android:text="@string/Oryoucanrecordyourvoice"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/textView2"
-            android:layout_gravity="left|bottom"
+            android:layout_gravity="start|bottom"
             android:layout_marginBottom="111dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:fontFamily="sans-serif"
             android:textSize="18sp" />
 
@@ -72,10 +76,11 @@
             android:layout_width="91dp"
             android:layout_height="82dp"
             android:id="@+id/imageButton"
-            android:layout_gravity="right|bottom"
+            android:layout_gravity="end|bottom"
             android:src="@android:drawable/ic_btn_speak_now"
             android:backgroundTint="@color/abc_background_cache_hint_selector_material_light"
             android:layout_marginBottom="80dp"
+            android:layout_marginEnd="27dp"
             android:layout_marginRight="27dp"
             android:onClick="speechtotextClick"/>
 

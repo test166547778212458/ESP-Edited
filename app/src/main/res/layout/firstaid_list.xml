@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:orientation="vertical"
-    tools:context=".S1">
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Text Message"
+            android:text="@string/textmsg"
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal|top"
             android:layout_marginTop="50dp" />
@@ -26,7 +25,7 @@
             android:layout_height="215dp"
             android:id="@+id/editText"
             android:layout_gravity="center"
-            android:text="Enter Your Message Here"
+            android:hint="@string/urvtot"
             android:textIsSelectable="false"
             android:textAllCaps="true"
             android:textAlignment="center"
@@ -59,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Or you can record your voice "
+            android:text="you can record your voice "
             android:id="@+id/textView2"
             android:layout_gravity="left|bottom"
             android:layout_marginBottom="111dp"

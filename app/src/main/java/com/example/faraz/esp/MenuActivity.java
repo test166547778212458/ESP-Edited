@@ -6,20 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import Location.LocationFinder;
 
 public class MenuActivity extends AppCompatActivity{
+    private static final String TAG = IntroActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //Toast.makeText(this, ,Toast.LENGTH_LONG).show();
     }
 
     public void SendCoords(View view) {
@@ -64,6 +58,12 @@ public class MenuActivity extends AppCompatActivity{
         homeIntent.addCategory( Intent.CATEGORY_HOME );
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homeIntent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 }
 

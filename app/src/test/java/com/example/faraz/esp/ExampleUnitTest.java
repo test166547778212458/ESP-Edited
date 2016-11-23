@@ -1,15 +1,12 @@
 package com.example.faraz.esp;
 
-import org.junit.Test;
+import android.test.InstrumentationTestCase;
 
-import static org.junit.Assert.*;
+public class ExampleUnitTest extends InstrumentationTestCase{
 
-/**
- * To work on unit tests, switch the Test Artifact in the Build Variants view.
- */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+
+    public void testa(){
+
+        assertEquals(2,4-1);
     }
 }

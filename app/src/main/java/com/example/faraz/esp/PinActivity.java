@@ -11,9 +11,13 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import Location.LocationFinder;
+
+
 public class PinActivity extends AppCompatActivity {
-
-
+    private static final String TAG = IntroActivity.class.getSimpleName();
+    double longitude;
+    double latitude;
     EditText input;
     TextView pinView;
 
@@ -45,12 +49,23 @@ public class PinActivity extends AppCompatActivity {
         int x = Integer.valueOf(input.getText().toString());
         int y = Integer.valueOf(pinView.getText().toString());
 
-        if(x == y){
+        if (x == y) {
             startActivity(new Intent(PinActivity.this, MenuActivity.class));
             finish();
-        }else {
+        } else {
             Toast.makeText(PinActivity.this, "Wrong Pin", Toast.LENGTH_LONG).show();
         }
 
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        try{
+//            longitude = LocationFinder.getInstance().getLocation().getLongitude();
+//            latitude = LocationFinder.getInstance().getLocation().getLatitude();
+//            Toast.makeText(this, "Longitude : "+String.valueOf(longitude)+" Latitude : "+String.valueOf(latitude),Toast.LENGTH_LONG).show();
+//        }catch(NullPointerException e){
+//            System.out.println(e.getMessage());
+//        }
     }
 }

@@ -2,6 +2,7 @@ package Location;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -20,6 +21,8 @@ import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import connection.RequestQueueSingleton;
+
 public class LocationFinder extends Application implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener{
     private static final String TAG = LocationFinder.class.getSimpleName();
@@ -28,12 +31,14 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     private LocationRequest locationRequest;
     private Activity activity;
     private FusedLocationProviderApi fusedLocationProviderApi = LocationServices.FusedLocationApi;
+    Location location;
 
     private static final int PERMISSION_REQUEST_CODE = 112;
 
     public static LocationFinder getInstance(){
         return Instance;
     }
+
 
     @Override
     public void onCreate() {
@@ -100,7 +105,8 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
                     ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
                             PackageManager.PERMISSION_GRANTED) {
                 //dialog pop up to user asking for permission
-                activity.requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+                activity.requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSION_REQUEST_CODE);
                 return;
             }
         }
@@ -108,6 +114,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
             //Exception may happen.
             //Google Api Client not connected.
             fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+            Log.d(TAG, "fused location registered!");
             gate(1);
         }catch (IllegalStateException e){
             Log.d(TAG,e.getMessage());
@@ -137,8 +144,14 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location mlocation) {
+        location = new Location(mlocation);
+        Log.d(TAG,"location on change");
+        Log.d(TAG,"longitude :"+location.getLongitude()+" latitude : "+location.getLatitude());
+    }
 
+    public GoogleApiClient getGoogleApiClient(){
+        return googleApiClient;
     }
 
     public void ConnectGoogleApiClient(){
@@ -146,11 +159,18 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     }
 
     public void DisconnectGoogleApiClient(){
-        googleApiClient.connect();
+        googleApiClient.disconnect();
     }
 
     public boolean isGoogleApiClientConnected(){
         return googleApiClient.isConnected();
     }
 
+    public Location getLocation(){
+        return location;
+    }
+
+    public Context getApp(){
+        return getApplicationContext();
+    }
 }

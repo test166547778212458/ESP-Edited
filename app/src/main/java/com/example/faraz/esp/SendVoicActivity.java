@@ -1,22 +1,38 @@
 package com.example.faraz.esp;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+
+import Location.LocationFinder;
+import connection.RequestQueueSingleton;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class SendVoicActivity extends AppCompatActivity {
+    private static final String TAG = IntroActivity.class.getSimpleName();
+    double longitude;
+    double latitude;
 
     private final int SPEECH_RECOGNITION_CODE = 1;
     private EditText message;
+    private ProgressDialog pDialog;
 
 
     @Override
@@ -25,42 +41,40 @@ public class SendVoicActivity extends AppCompatActivity {
         setContentView(R.layout.send_voice_message);
 
         message = (EditText) findViewById(R.id.editText);
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
+
     }
 
     public void speechtotextClick(View view){
         //request component from speech recognition
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
         //required for the intent.
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
-        //Optional
-
-
         //check if the language of the device is arabic then make reqognizer arabic otherwise english.
         String dl = Locale.getDefault().toString().charAt(0)+""+Locale.getDefault().toString().charAt(1);
         if(dl.equals("ar")){
             System.out.println("Language is arabic");
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ar_SA");
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"قل شيئا...");
-        }else{
+        }else {
             System.out.println("Language is English");
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Speak something...");
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak something...");
         }
-
-
         try {
             //start recognizer.
             startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
         } catch (ActivityNotFoundException a) {
             if(dl.equals("ar")){
-                Toast.makeText(getApplicationContext(),"نأسف, خاصية التعرف على الصوت غير مدعوم في جهازك.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"نأسف, خاصية التعرف على الصوت غير مدعوم في جهازك.",
+                        Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(getApplicationContext(),"Sorry! Speech recognition is not supported in this device.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Sorry! Speech recognition is not supported in this device.",
+                        Toast.LENGTH_SHORT).show();
             }
-
-
         }
     }
 
@@ -81,6 +95,60 @@ public class SendVoicActivity extends AppCompatActivity {
 
     public void back(View view) {
         finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        longitude = LocationFinder.getInstance().getLocation().getLongitude();
+//        latitude = LocationFinder.getInstance().getLocation().getLatitude();
+//        Toast.makeText(this, "Longitude : "+String.valueOf(longitude)+" Latitude : "+String.valueOf(latitude),Toast.LENGTH_LONG).show();
+    }
+
+    public void send(View view){
+        if(message.getText().toString().length() == 0){
+            Toast.makeText(this,"Please click on mic to convert your voice to text",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        showpDialog();
+
+        String encodedMessage = null;
+        try {
+            encodedMessage = URLEncoder.encode(message.getText().toString(), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                getString(R.string.server)+getString(R.string.path)+"?op=2&msg="+encodedMessage,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                        hidepDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                hidepDialog();
+            }
+        });
+        message.setText("");
+        // Add the request to the RequestQueue.
+        RequestQueueSingleton.getInstance().addToRequestQueue(stringRequest);
+    }
+
+
+    private void showpDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hidepDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }
 

@@ -3,13 +3,15 @@ package com.example.faraz.esp;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import Location.LocationFinder;
 
 public class IntroActivity extends Activity {
     private static final String TAG = IntroActivity.class.getSimpleName();
-
+    double longitude;
+    double latitude;
     private static final int PERMISSION_REQUEST_CODE = 112;
 
     @Override
