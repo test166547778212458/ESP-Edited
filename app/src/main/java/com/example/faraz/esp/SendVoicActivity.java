@@ -2,7 +2,10 @@ package com.example.faraz.esp;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,14 +29,13 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class SendVoicActivity extends AppCompatActivity {
-    private static final String TAG = IntroActivity.class.getSimpleName();
+    private static final String TAG = SendVoicActivity.class.getSimpleName();
     double longitude;
     double latitude;
 
     private final int SPEECH_RECOGNITION_CODE = 1;
     private EditText message;
     private ProgressDialog pDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,10 @@ public class SendVoicActivity extends AppCompatActivity {
     }
 
     public void speechtotextClick(View view){
+        if(!isNetworkAvailable()){
+            Toast.makeText(this,"You need Internet connection to use this function.",Toast.LENGTH_SHORT).show();
+            return;
+        }
         //request component from speech recognition
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         //required for the intent.
@@ -100,32 +106,57 @@ public class SendVoicActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        longitude = LocationFinder.getInstance().getLocation().getLongitude();
-//        latitude = LocationFinder.getInstance().getLocation().getLatitude();
-//        Toast.makeText(this, "Longitude : "+String.valueOf(longitude)+" Latitude : "+String.valueOf(latitude),Toast.LENGTH_LONG).show();
     }
 
     public void send(View view){
+        if(!isNetworkAvailable()){
+            Toast.makeText(this,"You need Internet connection to Send.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(message.getText().toString().length() == 0){
             Toast.makeText(this,"Please click on mic to convert your voice to text",Toast.LENGTH_SHORT).show();
             return;
         }
+
+        try {
+            longitude = LocationFinder.getInstance().getLocation().getLongitude();
+            latitude = LocationFinder.getInstance().getLocation().getLatitude();
+        }catch(NullPointerException e){
+            Log.d(TAG, e.getMessage());
+            Toast.makeText(this,"Cannot find your location",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        sendDataToServer(message.getText().toString(),1);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void sendDataToServer(String msg, final int op){
         showpDialog();
 
         String encodedMessage = null;
         try {
-            encodedMessage = URLEncoder.encode(message.getText().toString(), "utf-8");
+            encodedMessage = URLEncoder.encode(msg, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
+        String url = getString(R.string.server)+getString(R.string.path)+"?op="+op+"&msg="+encodedMessage+
+                "&lat="+latitude+"&lon="+longitude;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                getString(R.string.server)+getString(R.string.path)+"?op=2&msg="+encodedMessage,
+        Log.d("URL",url);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, response);
+                        Log.d("onResponse",response);
                         hidepDialog();
                     }
                 }, new Response.ErrorListener() {
@@ -135,11 +166,11 @@ public class SendVoicActivity extends AppCompatActivity {
                 hidepDialog();
             }
         });
+
         message.setText("");
         // Add the request to the RequestQueue.
         RequestQueueSingleton.getInstance().addToRequestQueue(stringRequest);
     }
-
 
     private void showpDialog() {
         if (!pDialog.isShowing())
