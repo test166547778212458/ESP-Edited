@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
+    android:background="#6d96b2"
     tools:context=".SendVoicActivity">
 
     <FrameLayout
@@ -78,11 +79,11 @@
             android:id="@+id/imageButton"
             android:layout_gravity="end|bottom"
             android:src="@android:drawable/ic_btn_speak_now"
-            android:backgroundTint="@color/abc_background_cache_hint_selector_material_light"
             android:layout_marginBottom="80dp"
             android:layout_marginEnd="27dp"
             android:layout_marginRight="27dp"
-            android:onClick="speechtotextClick"/>
+            android:onClick="speechtotextClick"
+            android:background="#6d96b2" />
 
     </FrameLayout>
 </LinearLayout>

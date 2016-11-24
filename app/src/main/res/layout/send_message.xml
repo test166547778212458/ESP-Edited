@@ -17,44 +17,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Text Message"
+            android:text="@string/textmsg"
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal|top"
             android:layout_marginTop="50dp" />
 
         <EditText
-            android:layout_width="345dp"
-            android:layout_height="215dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_gravity="center|center"
+            android:ems="10"
             android:id="@+id/editText"
-            android:layout_gravity="center"
-            android:text="Enter Your Message Here"
-            android:textIsSelectable="true"
-            android:textAllCaps="true"
+            android:hint="@string/yswttth"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send"
+            android:text="@string/send"
             android:id="@+id/button2"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="100dp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textSize="18dp" />
+            android:textSize="18sp"
+            android:onClick="send" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton10"
-            android:layout_gravity="left|top"
+            android:layout_gravity="start|top"
             android:src="@drawable/hhh"
             android:background="#6d96b2"
             android:layout_marginTop="10dp"
             android:onClick="back"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:contentDescription="back button" />
 
     </FrameLayout>
 </LinearLayout>
