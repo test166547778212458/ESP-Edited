@@ -1,6 +1,7 @@
 package com.example.faraz.esp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,8 +23,9 @@ public class MenuActivity extends AppCompatActivity{
     }
 
     public void startCall(View view) {
-        //startActivity(new Intent(MenuActivity.this, MenuActivity.class));
-        Toast.makeText(MenuActivity.this, "Starting Call Code + Interface HERE", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("tel:900" ));
+        startActivity(intent);
     }
 
     public void goToMsgScrn(View view) {
