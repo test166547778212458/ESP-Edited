@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 
 public class MenuActivity extends AppCompatActivity{
-    private static final String TAG = IntroActivity.class.getSimpleName();
+    private static final String TAG = MenuActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,8 @@ public class MenuActivity extends AppCompatActivity{
     }
 
     public void SendCoords(View view) {
-        Toast.makeText(MenuActivity.this, "Sending Coords Code HERE", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(MenuActivity.this, SOSActivity.class));
+        //Toast.makeText(MenuActivity.this, "Sending Coords Code HERE", Toast.LENGTH_LONG).show();
     }
 
     public void startCall(View view) {

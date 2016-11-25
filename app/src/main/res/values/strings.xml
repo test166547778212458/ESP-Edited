@@ -13,9 +13,11 @@
     <string name="micicon">Mic Icon</string>
     <string name="textmsg">Text Message</string>
     <string name="enterurmsghere">Enter Your Message Here</string>
+    <string name="sosbutton">SOS Button</string>
     <string name="enterpinhere">Enter PIN Here</string>
     <string name="Oryoucanrecordyourvoice">you can record your voice</string>
     <string name="urvtot">your voice will converted to text here</string>
+    <string name="useitincaseyou">*use it in case you cannot write text</string>
     <string name="server">http://yahya-app.ddns.net/</string>
     <string name="path">android/getData.php</string>
 </resources>

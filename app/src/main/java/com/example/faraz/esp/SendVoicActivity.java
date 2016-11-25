@@ -124,7 +124,7 @@ public class SendVoicActivity extends AppCompatActivity {
             latitude = LocationFinder.getInstance().getLocation().getLatitude();
         }catch(NullPointerException e){
             Log.d(TAG, e.getMessage());
-            Toast.makeText(this,"Cannot find your location",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Cannot find your location. Please restart the application",Toast.LENGTH_SHORT).show();
             return;
         }
 
