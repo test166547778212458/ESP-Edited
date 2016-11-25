@@ -1,8 +1,11 @@
 package com.example.faraz.esp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class ContactUsActivity extends AppCompatActivity {
     private static final String TAG = IntroActivity.class.getSimpleName();
@@ -20,6 +23,18 @@ public class ContactUsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    public void gmail(View view){
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"hajcc@haj.gov.sa"});
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            Log.d(TAG,ex.getMessage());
+        }
     }
 }
 
