@@ -13,7 +13,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:background="#6d96b2"
-        tools:ignore="UselessParent">
+        tools:ignore="UselessParent"
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,50 +42,33 @@
             android:layout_marginLeft="10dp" />
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton16"
             android:src="@drawable/twitter"
-            android:scaleX=".8"
-            android:scaleY=".8"
-            android:layout_marginTop="180dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:layout_marginTop="130dp"
             android:elevation="1dp"
             android:background="#6d96b2"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
             android:onClick="twitter" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/instagram"
-            android:id="@+id/imageButton17"
-            android:background="#6d96b2"
-            android:layout_marginTop="192dp"
-            android:layout_marginStart="290dp"
-            android:layout_marginLeft="290dp"
-            android:onClick="instagram" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton15"
             android:src="@drawable/facebook"
             android:contentDescription="@string/twitter"
             android:background="#6d96b2"
-            android:layout_marginTop="195dp"
-            android:layout_marginLeft="150dp"
-            android:layout_marginStart="150dp"
+            android:layout_marginTop="270dp"
             android:onClick="facebook" />
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/gmail"
             android:id="@+id/imageButton18"
-            android:layout_marginLeft="150dp"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="320dp"
+            android:layout_marginTop="400dp"
             android:background="#6d96b2"
             android:onClick="gmail" />
 
