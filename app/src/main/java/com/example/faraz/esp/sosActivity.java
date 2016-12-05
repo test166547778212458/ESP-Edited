@@ -29,11 +29,9 @@ public class SOSActivity extends Activity{
 
     private ProgressDialog pDialog;
     private AlertDialog.Builder noInternet_adb;
-    private AlertDialog.Builder noText_adb;
     private AlertDialog.Builder failed_adb;
     private AlertDialog.Builder succeed_adb;
     private AlertDialog noInternet_ad;
-    private AlertDialog noText_ad;
     private AlertDialog failed_ad;
     private AlertDialog succeed_ad;
 
@@ -47,7 +45,6 @@ public class SOSActivity extends Activity{
         pDialog.setCancelable(false);
 
         noInternetDialog();
-        noTextDialog();
         failedDialog();
         succeedDialog();
     }
@@ -67,23 +64,6 @@ public class SOSActivity extends Activity{
         noInternet_adb.setPositiveButton("OK", null);
 
         noInternet_ad = noInternet_adb.create();
-    }
-
-    private void noTextDialog(){
-        noText_adb = new AlertDialog.Builder(this);
-        noText_adb.setMessage("SOS Request");
-
-        //you can use db.setView(R.layout.nointernet_dialog) but it requires 21 api and above,
-        //this app minimum api is 18
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.notext_dialog, null);
-
-        noText_adb.setView(v);
-
-        noText_adb.setCancelable(false);
-        noText_adb.setPositiveButton("OK", null);
-
-        noText_ad = noText_adb.create();
     }
 
     private void failedDialog(){

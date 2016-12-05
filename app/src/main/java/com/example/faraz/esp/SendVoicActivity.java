@@ -1,5 +1,6 @@
 package com.example.faraz.esp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,7 +37,16 @@ public class SendVoicActivity extends AppCompatActivity {
 
     private final int SPEECH_RECOGNITION_CODE = 1;
     private EditText message;
+
     private ProgressDialog pDialog;
+    private AlertDialog.Builder noInternet_adb;
+    private AlertDialog.Builder noText_adb;
+    private AlertDialog.Builder failed_adb;
+    private AlertDialog.Builder succeed_adb;
+    private AlertDialog noInternet_ad;
+    private AlertDialog noText_ad;
+    private AlertDialog failed_ad;
+    private AlertDialog succeed_ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +59,84 @@ public class SendVoicActivity extends AppCompatActivity {
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
+        noInternetDialog();
+        noTextDialog();
+        failedDialog();
+        succeedDialog();
+    }
+
+    private void noInternetDialog(){
+        noInternet_adb = new AlertDialog.Builder(this);
+        noInternet_adb.setMessage("Speech to Text Request");
+
+        //you can use db.setView(R.layout.nointernet_dialog) but it requires 21 api and above,
+        //this app minimum api is 18
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.nointernet_dialog, null);
+
+        noInternet_adb.setView(v);
+
+        noInternet_adb.setCancelable(false);
+        noInternet_adb.setPositiveButton("OK", null);
+
+        noInternet_ad = noInternet_adb.create();
+    }
+
+    private void noTextDialog(){
+        noText_adb = new AlertDialog.Builder(this);
+        noText_adb.setMessage("Speech to Text Request");
+
+        //you can use db.setView(R.layout.nointernet_dialog) but it requires 21 api and above,
+        //this app minimum api is 18
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.notext_dialog, null);
+
+        noText_adb.setView(v);
+
+        noText_adb.setCancelable(false);
+        noText_adb.setPositiveButton("OK", null);
+
+        noText_ad = noText_adb.create();
+    }
+
+    private void failedDialog(){
+        failed_adb = new AlertDialog.Builder(this);
+        failed_adb.setMessage("Speech to Text Request");
+
+        //you can use db.setView(R.layout.nointernet_dialog) but it requires 21 api and above,
+        //this app minimum api is 18
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.failed_dialog, null);
+
+        failed_adb.setView(v);
+
+        failed_adb.setCancelable(false);
+        failed_adb.setPositiveButton("OK", null);
+
+        failed_ad = failed_adb.create();
+    }
+
+    private void succeedDialog(){
+        succeed_adb = new AlertDialog.Builder(this);
+        succeed_adb.setMessage("Speech to Text Request");
+
+        //you can use db.setView(R.layout.nointernet_dialog) but it requires 21 api and above,
+        //this app minimum api is 18
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.succeed_dialog, null);
+
+        succeed_adb.setView(v);
+
+        succeed_adb.setCancelable(false);
+        succeed_adb.setPositiveButton("OK", null);
+
+        succeed_ad = succeed_adb.create();
     }
 
     public void speechtotextClick(View view){
         if(!isNetworkAvailable()){
-            Toast.makeText(this,"You need Internet connection to use this function.",Toast.LENGTH_SHORT).show();
+            noInternet_ad.show();
+            //Toast.makeText(this,"You need Internet connection to use this function.",Toast.LENGTH_SHORT).show();
             return;
         }
         //request component from speech recognition
@@ -110,12 +194,14 @@ public class SendVoicActivity extends AppCompatActivity {
 
     public void send(View view){
         if(!isNetworkAvailable()){
-            Toast.makeText(this,"You need Internet connection to Send.",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"You need Internet connection to Send.",Toast.LENGTH_SHORT).show();
+            noInternet_ad.show();
             return;
         }
 
         if(message.getText().toString().length() == 0){
-            Toast.makeText(this,"Please click on mic to convert your voice to text",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"Please click on mic to convert your voice to text",Toast.LENGTH_SHORT).show();
+            noText_ad.show();
             return;
         }
 
@@ -158,12 +244,14 @@ public class SendVoicActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("onResponse",response);
                         hidepDialog();
+                        succeed_ad.show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 hidepDialog();
+                failed_ad.show();
             }
         });
 
