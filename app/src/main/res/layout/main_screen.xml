@@ -101,7 +101,7 @@
             android:background="#6d96b2"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:onClick="exit"
+            android:onClick="showExitDialog"
             android:src="@android:drawable/ic_lock_power_off" />
 
     </FrameLayout>

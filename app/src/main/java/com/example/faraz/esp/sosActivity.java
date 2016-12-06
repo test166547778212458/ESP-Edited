@@ -53,7 +53,7 @@ public class SOSActivity extends Activity{
         noInternet_adb = new AlertDialog.Builder(this);
         noInternet_adb.setMessage("SOS Request");
 
-        //you can use db.setView(R.layout.nointernet_dialog) but it requires 21 api and above,
+        //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
         LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.nointernet_dialog, null);
@@ -70,7 +70,7 @@ public class SOSActivity extends Activity{
         failed_adb = new AlertDialog.Builder(this);
         failed_adb.setMessage("SOS Request");
 
-        //you can use db.setView(R.layout.nointernet_dialog) but it requires 21 api and above,
+        //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
         LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.failed_dialog, null);
@@ -87,7 +87,7 @@ public class SOSActivity extends Activity{
         succeed_adb = new AlertDialog.Builder(this);
         succeed_adb.setMessage("SOS Request");
 
-        //you can use db.setView(R.layout.nointernet_dialog) but it requires 21 api and above,
+        //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
         LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.succeed_dialog, null);

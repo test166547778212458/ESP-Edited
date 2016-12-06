@@ -24,4 +24,5 @@
     <string name="notext">You need to enter a message to send it!</string>
     <string name="failed">We did not receive your request, Please try again</string>
     <string name="succeed">We received your request.</string>
+    <string name="exit">Are your sure want to close the app ?</string>
 </resources>
