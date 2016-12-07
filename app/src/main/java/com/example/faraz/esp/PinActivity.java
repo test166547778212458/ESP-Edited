@@ -45,17 +45,18 @@ public class PinActivity extends AppCompatActivity {
         TextView pinView = (TextView) findViewById(R.id.textView5);
         Log.v("input", input.getText().toString());
         Log.v("pinView", pinView.getText().toString());
-
-        int x = Integer.valueOf(input.getText().toString());
-        int y = Integer.valueOf(pinView.getText().toString());
-
-        if (x == y) {
-            startActivity(new Intent(PinActivity.this, MenuActivity.class));
-            finish();
-        } else {
-            Toast.makeText(PinActivity.this, "Wrong Pin", Toast.LENGTH_LONG).show();
+        try {
+            int x = Integer.valueOf(input.getText().toString());
+            int y = Integer.valueOf(pinView.getText().toString());
+            if (x == y) {
+                startActivity(new Intent(PinActivity.this, MenuActivity.class));
+                finish();
+            } else {
+                Toast.makeText(PinActivity.this, "Wrong Pin", Toast.LENGTH_LONG).show();
+            }
+        }catch(NumberFormatException e){
+            Toast.makeText(this,"You need to enter number first!",Toast.LENGTH_SHORT).show();
         }
-
     }
     @Override
     protected void onStart() {
