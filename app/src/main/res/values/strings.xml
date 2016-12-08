@@ -18,7 +18,7 @@
     <string name="Oryoucanrecordyourvoice">you can record your voice</string>
     <string name="urvtot">your voice will converted to text here</string>
     <string name="useitincaseyou">*use it in case you cannot write text</string>
-    <string name="server">http://yahya-app.ddns.net/</string>
+    <string name="server">http://10.23.47.178/</string>
     <string name="path">android/getData.php</string>
     <string name="nointernet">You need an internet connection to use this function!</string>
     <string name="notext">You need to enter a message to send it!</string>
