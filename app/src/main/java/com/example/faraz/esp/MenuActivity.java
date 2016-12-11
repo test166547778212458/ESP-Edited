@@ -19,11 +19,15 @@ public class MenuActivity extends AppCompatActivity{
     private AlertDialog.Builder inExit_adb;
     private AlertDialog inExit_ad;
 
+    private AlertDialog.Builder info_adb;
+    private AlertDialog info_ad;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
         onExit_dialog();
+        onInfo_dialog();
     }
 
     private void onExit_dialog(){
@@ -48,6 +52,23 @@ public class MenuActivity extends AppCompatActivity{
             } });
 
         inExit_ad = inExit_adb.create();
+    }
+
+    private void onInfo_dialog(){
+        info_adb = new AlertDialog.Builder(this);
+        info_adb.setMessage("About us");
+
+        //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
+        //this app minimum api is 18
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.info_dialog, null);
+
+        info_adb.setView(v);
+
+        info_adb.setCancelable(false);
+        info_adb.setPositiveButton("OK",null);
+
+        info_ad = info_adb.create();
     }
 
     public void SendCoords(View view) {
@@ -78,6 +99,10 @@ public class MenuActivity extends AppCompatActivity{
         //startActivity(new Intent(MenuActivity.this, MenuActivity.class));
         Toast.makeText(MenuActivity.this, "Aid Tips Code HERE", Toast.LENGTH_LONG).show();
 
+    }
+
+    public void info(View view){
+        info_ad.show();
     }
 
     public void showExitDialog(View view){
