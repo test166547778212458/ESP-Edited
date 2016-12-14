@@ -129,7 +129,7 @@ public class SOSActivity extends Activity{
     private void sendDataToServer(final int op){
         showpDialog();
 
-        String url = getString(R.string.server)+getString(R.string.path)+"?op="+op+"&lat="+latitude+"&lon="+longitude;
+        String url = getString(R.string.server)+getString(R.string.path_1)+"?op="+op+"&lat="+latitude+"&lon="+longitude;
 
         Log.d("URL",url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

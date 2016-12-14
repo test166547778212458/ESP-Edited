@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -14,17 +15,29 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
 import com.example.faraz.esp.PinActivity;
+import com.example.faraz.esp.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import connection.RequestQueueSingleton;
 
 public class LocationFinder extends Application implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener{
+
     private static final String TAG = LocationFinder.class.getSimpleName();
     private static LocationFinder Instance;
     private GoogleApiClient googleApiClient;
@@ -32,6 +45,15 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     private Activity activity;
     private FusedLocationProviderApi fusedLocationProviderApi = LocationServices.FusedLocationApi;
     Location location;
+
+    private SharedPreferences sp;
+    private SharedPreferences.Editor spE;
+    private static final String filename = "ESP";
+    private static final String LSL = "LSL";
+
+    private SimpleDateFormat sdf;
+    private DateFormat df;
+    private Date d;
 
     private static final int PERMISSION_REQUEST_CODE = 112;
 
@@ -55,6 +77,9 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
         locationRequest.setInterval(60 * 1000);
         locationRequest.setFastestInterval(15 * 1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        sp = getSharedPreferences(filename, 0);
+        spE = sp.edit();
     }
 
     public void gate(int entry){
@@ -148,6 +173,72 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
         location = new Location(mlocation);
         Log.d(TAG,"location on change");
         Log.d(TAG,"longitude :"+location.getLongitude()+" latitude : "+location.getLatitude());
+
+        sendLocationToServer();
+    }
+
+    private void sendLocationToServer(){
+        d = Calendar.getInstance().getTime();
+        df = new SimpleDateFormat("d:M:H:m");
+
+        String currentDate = df.format(d);
+        String spDate = sp.getString(LSL,"");
+
+        //if spDate is empty that mean never sent location to the server
+        if(spDate.length() == 0){
+            spE.putString(LSL,df.format(d)).commit();
+            sendLocation();
+            return;
+        }
+
+        String[] currentDateArray = currentDate.split(":");
+        String[] spDateArray = spDate.split(":");
+
+        //compare months
+        if(Integer.valueOf(currentDateArray[1]) > Integer.valueOf(spDateArray[1]))
+        {
+            spE.putString(LSL,df.format(d)).commit();
+            sendLocation();
+        }
+        //compare days
+        else if(Integer.valueOf(currentDateArray[0]) > Integer.valueOf(spDateArray[0]))
+        {
+            spE.putString(LSL,df.format(d)).commit();
+            sendLocation();
+        }
+        //compare hours
+        else if(Integer.valueOf(currentDateArray[2]) > Integer.valueOf(spDateArray[2]))
+        {
+            spE.putString(LSL,df.format(d)).commit();
+            sendLocation();
+        }
+        //compare minutes
+        else if(Integer.valueOf(currentDateArray[3]) > (Integer.valueOf(spDateArray[3])+30)){
+            spE.putString(LSL,df.format(d)).commit();
+            sendLocation();
+        }else{}
+    }
+
+    private void sendLocation(){
+
+        String url = getString(R.string.server)+getString(R.string.path_2)+"&lat="+location.getLatitude()+
+                "&lon="+location.getLongitude();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("onResponse",response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        RequestQueueSingleton.getInstance().addToRequestQueue(stringRequest);
     }
 
     public GoogleApiClient getGoogleApiClient(){
