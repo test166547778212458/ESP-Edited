@@ -8,22 +8,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class ContactUsActivity extends AppCompatActivity {
+public class feedbackActivity extends AppCompatActivity {
     private static final String TAG = IntroActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.contact_us);
+        setContentView(R.layout.feedback);
     }
 
     public void back(View view) {
         finish();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     public void gmail(View view){
@@ -49,6 +44,7 @@ public class ContactUsActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
+
 }
 
 

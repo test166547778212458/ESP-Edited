@@ -30,4 +30,26 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:id="@+id/button3"
+        android:text="@string/feedback"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:paddingEnd="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingStart="20dp"
+        android:contentDescription="@string/feedback"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:fontFamily="monospace"
+        android:textSize="18sp"
+        android:typeface="serif"
+        android:layout_below="@+id/imageView_exit"
+        android:layout_centerHorizontal="true"
+        android:textStyle="normal|italic"
+        android:textColor="@android:color/white"
+        android:onClick="giveFeedback" />
 </RelativeLayout>

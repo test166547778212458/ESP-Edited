@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#6d96b2">
+
+    <TextView
+        android:text="Feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:id="@+id/textView11"
+        android:typeface="serif"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_centerVertical="true"
+        android:textSize="36sp"
+        android:fontFamily="monospace"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="normal|bold"
+        android:textAllCaps="false" />
+
+    <Button
+        android:text="TWITTER"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:id="@+id/button8"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:textSize="24sp"
+        android:layout_below="@+id/button7"
+        android:textColor="@android:color/white"
+        android:width="200dp"
+        android:height="60dp"
+        android:onClick="twitter" />
+
+    <Button
+        android:text="GMAIL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:id="@+id/button6"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:textSize="24sp"
+        android:layout_below="@+id/textView11"
+        android:width="200dp"
+        android:height="60dp"
+        android:onClick="gmail" />
+
+    <Button
+        android:text="FACEBOOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:id="@+id/button7"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:textSize="24sp"
+        android:layout_below="@+id/button6"
+        android:width="200dp"
+        android:height="60dp"
+        android:onClick="facebook" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/back"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imageButton14"
+        android:background="#6d96b2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:onClick="back" />
+</RelativeLayout>

@@ -1,6 +1,5 @@
 package connection;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -38,20 +37,9 @@ public class RequestQueueSingleton{
         return requestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
-        // set the default tag if tag is empty
-        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        getRequestQueue().add(req);
-    }
-
     public <T> void addToRequestQueue(Request<T> req) {
         req.setTag(TAG);
         getRequestQueue().add(req);
     }
 
-    public void cancelPendingRequests(Object tag) {
-        if (requestQueue != null) {
-            requestQueue.cancelAll(tag);
-        }
-    }
 }

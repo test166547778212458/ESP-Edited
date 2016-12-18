@@ -221,7 +221,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
 
     private void sendLocation(){
 
-        String url = getString(R.string.server)+getString(R.string.path_2)+"&lat="+location.getLatitude()+
+        String url = getString(R.string.server)+getString(R.string.path_2)+"?lat="+location.getLatitude()+
                 "&lon="+location.getLongitude();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

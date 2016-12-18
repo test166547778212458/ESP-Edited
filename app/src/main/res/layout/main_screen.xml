@@ -75,6 +75,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:id="@+id/imageButton6"
             android:layout_gravity="left|bottom"
             android:layout_marginBottom="70dp"
