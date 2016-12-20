@@ -9,10 +9,8 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 
 public class MenuActivity extends AppCompatActivity{
@@ -130,9 +128,8 @@ public class MenuActivity extends AppCompatActivity{
     }
 
     public void goToAidScrn(View view) {
-        //startActivity(new Intent(MenuActivity.this, MenuActivity.class));
-        Toast.makeText(MenuActivity.this, "Aid Tips Code HERE", Toast.LENGTH_LONG).show();
-
+        startActivity(new Intent(MenuActivity.this, firstaidActivity.class));
+        //Toast.makeText(MenuActivity.this, "Aid Tips Code HERE", Toast.LENGTH_LONG).show();
     }
 
     public void giveFeedback(View view){

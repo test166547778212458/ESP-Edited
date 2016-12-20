@@ -43,10 +43,8 @@
             android:layout_gravity="start|top"
             android:src="@drawable/hhh"
             android:background="@android:color/transparent"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:onClick="back" />
+            android:onClick="back"
+            android:layout_margin="10dp" />
 
         <EditText
             android:layout_width="fill_parent"

@@ -1,12 +1,12 @@
 package com.example.faraz.esp;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,7 @@ import Location.LocationFinder;
 import connection.RequestQueueSingleton;
 
 
-public class SOSActivity extends Activity{
+public class SOSActivity extends AppCompatActivity {
     private static final String TAG = SOSActivity.class.getSimpleName();
     double latitude;
     double longitude;
@@ -162,5 +162,7 @@ public class SOSActivity extends Activity{
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
+    public void back(View view){ finish();}
 
 }

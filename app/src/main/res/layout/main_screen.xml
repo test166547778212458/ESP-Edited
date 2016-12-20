@@ -93,7 +93,7 @@
             android:layout_marginBottom="70dp"
             android:layout_marginRight="80dp"
             android:onClick="goToAidScrn"
-            android:src="@drawable/aid1" />
+            android:src="@drawable/firstaid_icon" />
 
         <ImageButton
             android:layout_width="wrap_content"

@@ -11,7 +11,7 @@
     <string name="send">Send</string>
     <string name="enter">Enter</string>
     <string name="micicon">Mic Icon</string>
-    <string name="feedback">give feedback</string>
+    <string name="feedback">give feedback here</string>
     <string name="textmsg">Text Message</string>
     <string name="enterurmsghere">Enter Your Message Here</string>
     <string name="sosbutton">SOS Button</string>
@@ -29,4 +29,49 @@
     <string name="exit">Are your sure want to close the app ?</string>
     <string name="aboutus">This Application Developed by: \n\t\tYahya Alshomrani \n\t\tand \n\t\tAbdulaziz Albuqami
         \nWith assistance of supervisor \n\t\tDr.Omar Batarfi</string>
+
+    <string name="firstaid_bleeding_title">First aid for Bleeding</string>
+    <string name="firstaid_bleeding_key">Key skill: Put pressure on the wound</string>
+    <string name="firstaid_bleeding_content">
+        1. Put pressure on the wound with whatever is available to stop or
+            slow down the flow of blood.
+            \n\n2. As soon as possible, call 999 or get someone else to do it.
+            \n\n3. Keep pressure on the wound until help arrives.</string>
+
+    <string name="firstaid_brokenbone_title">First aid for Broken Bone</string>
+    <string name="firstaid_brokenbone_key">Key skill: Immobilise the affected part</string>
+    <string name="firstaid_brokenbone_content">
+        1. Encourage the person to support the injury with their hand, or use a cushion or items
+            of clothing to prevent unnecessary movement.
+            \n\n2. As soon as possible, call 999 or get someone else to do it.
+            \n\n3. Continue supporting the injury until help arrives.</string>
+
+    <string name="firstaid_burns_title">First aid for burns</string>
+    <string name="firstaid_burns_key">Key skill: Cool the affected area</string>
+    <string name="firstaid_burns_content">
+        1. Cool the burn under cold running water for at least ten minutes.
+            \n\n2. Loosely cover the burn with cling film or a clean plastic bag.
+            \n\n3. If necessary, call 999 or get someone else to do it.</string>
+
+    <string name="firstaid_choking_title">First aid for choking</string>
+    <string name="firstaid_choking_key">Key skill: The delivery of back blows</string>
+    <string name="firstaid_choking_content">
+        1. Hit them firmly on their back between the shoulder blades to dislodge the object.
+            \n\n2. If necessary, call 999 or get someone else to do it.</string>
+
+    <string name="firstaid_heartattack_title">First aid for a heart attack</string>
+    <string name="firstaid_heartattack_key">Key skill: Ensure they are sitting and call 999 immediately</string>
+    <string name="firstaid_heartattack_content">
+            1. The person may have persistent, vice-like chest pain, which may spread to their arms,
+            neck, jaw, back or stomach.
+            \n\n2. Call 999 immediately or get someone else to do it.
+            \n\n3. Make sure they are in a position that is comfortable for them (e.g. sit them on the floor,
+                leaning against a wall or chair).
+            \n\n4. Give them constant reassurance while waiting for the ambulance.</string>
+
+    <string name="firstaid_seizures_title">First aid for seizures (epilepsy)</string>
+    <string name="firstaid_seizures_key">Key skill: Make them safe and prevent injury</string>
+    <string name="firstaid_seizures_content">
+        1. Do not restrain them but use a blanket or clothing to protect their head from injury.
+            \n\n2. After the seizure, help the person rest on their side with their head tilted back.</string>
 </resources>
