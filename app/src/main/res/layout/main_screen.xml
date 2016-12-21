@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
-    tools:context="com.example.faraz.esp.MenuActivity">
+    tools:context="com.example.yahya.esp.MenuActivity">
 
     <FrameLayout
         android:layout_width="match_parent"

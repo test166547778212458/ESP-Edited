@@ -1,4 +1,4 @@
-package com.example.faraz.esp;
+package com.example.yahya.esp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
-
-import Location.LocationFinder;
 
 
 public class PinActivity extends AppCompatActivity {

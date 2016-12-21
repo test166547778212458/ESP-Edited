@@ -1,16 +1,15 @@
-package com.example.faraz.esp;
+package com.example.yahya.esp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,49 +18,40 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import Location.LocationFinder;
 import connection.RequestQueueSingleton;
 
-public class SendMsgActivity extends AppCompatActivity {
-    private static final String TAG = SendMsgActivity.class.getSimpleName();
-    double longitude;
-    double latitude;
 
-    private EditText message;
+public class SOSActivity extends AppCompatActivity {
+    private static final String TAG = SOSActivity.class.getSimpleName();
+    double latitude;
+    double longitude;
 
     private ProgressDialog pDialog;
     private AlertDialog.Builder noInternet_adb;
-    private AlertDialog.Builder noText_adb;
     private AlertDialog.Builder failed_adb;
     private AlertDialog.Builder succeed_adb;
     private AlertDialog noInternet_ad;
-    private AlertDialog noText_ad;
     private AlertDialog failed_ad;
     private AlertDialog succeed_ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.send_message);
-
-        message = (EditText) findViewById(R.id.editText);
+        setContentView(R.layout.sos_layout);
 
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Sending...");
         pDialog.setCancelable(false);
 
         noInternetDialog();
-        noTextDialog();
         failedDialog();
         succeedDialog();
     }
 
     private void noInternetDialog(){
         noInternet_adb = new AlertDialog.Builder(this);
-        noInternet_adb.setMessage("Speech to Text Request");
+        noInternet_adb.setMessage("SOS Request");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -76,26 +66,9 @@ public class SendMsgActivity extends AppCompatActivity {
         noInternet_ad = noInternet_adb.create();
     }
 
-    private void noTextDialog(){
-        noText_adb = new AlertDialog.Builder(this);
-        noText_adb.setMessage("Speech to Text Request");
-
-        //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
-        //this app minimum api is 18
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.notext_dialog, null);
-
-        noText_adb.setView(v);
-
-        noText_adb.setCancelable(false);
-        noText_adb.setPositiveButton("OK", null);
-
-        noText_ad = noText_adb.create();
-    }
-
     private void failedDialog(){
         failed_adb = new AlertDialog.Builder(this);
-        failed_adb.setMessage("Speech to Text Request");
+        failed_adb.setMessage("SOS Request");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -112,7 +85,7 @@ public class SendMsgActivity extends AppCompatActivity {
 
     private void succeedDialog(){
         succeed_adb = new AlertDialog.Builder(this);
-        succeed_adb.setMessage("Speech to Text Request");
+        succeed_adb.setMessage("SOS Request");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -134,12 +107,6 @@ public class SendMsgActivity extends AppCompatActivity {
             return;
         }
 
-        if(message.getText().toString().length() == 0){
-            //Toast.makeText(this,"Please Enter your message",Toast.LENGTH_SHORT).show();
-            noText_ad.show();
-            return;
-        }
-
         try {
             longitude = LocationFinder.getInstance().getLocation().getLongitude();
             latitude = LocationFinder.getInstance().getLocation().getLatitude();
@@ -149,16 +116,7 @@ public class SendMsgActivity extends AppCompatActivity {
             return;
         }
 
-        sendDataToServer(message.getText().toString(),1);
-    }
-
-    public void back(View view) {
-        finish();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
+        sendDataToServer(2);
     }
 
     private boolean isNetworkAvailable() {
@@ -168,18 +126,10 @@ public class SendMsgActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void sendDataToServer(String msg, final int op){
+    private void sendDataToServer(final int op){
         showpDialog();
 
-        String encodedMessage = null;
-        try {
-            encodedMessage = URLEncoder.encode(msg, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        String url = getString(R.string.server)+getString(R.string.path_1)+"?op="+op+"&msg="+encodedMessage+
-                "&lat="+latitude+"&lon="+longitude;
+        String url = getString(R.string.server)+getString(R.string.path_1)+"?op="+op+"&lat="+latitude+"&lon="+longitude;
 
         Log.d("URL",url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -199,7 +149,6 @@ public class SendMsgActivity extends AppCompatActivity {
             }
         });
 
-        message.setText("");
         // Add the request to the RequestQueue.
         RequestQueueSingleton.getInstance().addToRequestQueue(stringRequest);
     }
@@ -213,5 +162,7 @@ public class SendMsgActivity extends AppCompatActivity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-}
 
+    public void back(View view){ finish();}
+
+}

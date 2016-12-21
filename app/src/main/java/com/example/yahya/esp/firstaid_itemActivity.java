@@ -1,4 +1,4 @@
-package com.example.faraz.esp;
+package com.example.yahya.esp;
 
 
 import android.os.Bundle;
@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Scroller;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class firstaid_itemActivity extends AppCompatActivity{
     private static final String TAG = firstaid_itemActivity.class.getSimpleName();

@@ -1,9 +1,8 @@
-package com.example.faraz.esp;
+package com.example.yahya.esp;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import Location.LocationFinder;
