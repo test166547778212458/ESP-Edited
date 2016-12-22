@@ -2,9 +2,13 @@ package com.example.yahya.esp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +50,7 @@ public class SendMsgActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send_message);
+
 
         message = (EditText) findViewById(R.id.editText);
 
@@ -156,10 +161,6 @@ public class SendMsgActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -201,7 +202,7 @@ public class SendMsgActivity extends AppCompatActivity {
 
         message.setText("");
         // Add the request to the RequestQueue.
-        RequestQueueSingleton.getInstance().addToRequestQueue(stringRequest);
+        LocationFinder.getInstance().getRequestQueueSingleton().addToRequestQueue(stringRequest);
     }
 
     private void showpDialog() {
@@ -213,5 +214,7 @@ public class SendMsgActivity extends AppCompatActivity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
+
 }
 

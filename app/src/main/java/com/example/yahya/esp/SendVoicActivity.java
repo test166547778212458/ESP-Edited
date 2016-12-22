@@ -3,10 +3,13 @@ package com.example.yahya.esp;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.IBinder;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -187,10 +190,6 @@ public class SendVoicActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
     public void send(View view){
         if(!isNetworkAvailable()){
@@ -257,7 +256,7 @@ public class SendVoicActivity extends AppCompatActivity {
 
         message.setText("");
         // Add the request to the RequestQueue.
-        RequestQueueSingleton.getInstance().addToRequestQueue(stringRequest);
+        LocationFinder.getInstance().getRequestQueueSingleton().addToRequestQueue(stringRequest);
     }
 
     private void showpDialog() {

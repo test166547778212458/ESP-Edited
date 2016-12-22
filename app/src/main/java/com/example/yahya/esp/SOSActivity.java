@@ -2,10 +2,14 @@ package com.example.yahya.esp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -150,7 +154,7 @@ public class SOSActivity extends AppCompatActivity {
         });
 
         // Add the request to the RequestQueue.
-        RequestQueueSingleton.getInstance().addToRequestQueue(stringRequest);
+        LocationFinder.getInstance().getRequestQueueSingleton().addToRequestQueue(stringRequest);
     }
 
     private void showpDialog() {
