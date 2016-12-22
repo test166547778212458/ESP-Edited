@@ -34,7 +34,7 @@
             android:layout_gravity="left|center_vertical"
             android:layout_marginBottom="50dp"
             android:layout_marginLeft="80dp"
-            android:src="@drawable/sos2"
+            android:src="@drawable/sos_icon"
             android:background="#6d96b2"
             android:onClick="SendCoords"
             android:adjustViewBounds="false" />
@@ -46,7 +46,7 @@
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="80dp"
             android:layout_marginBottom="50dp"
-            android:src="@drawable/call1"
+            android:src="@drawable/call_icon"
             android:onClick="startCall"
             android:background="#6d96b2" />
 
