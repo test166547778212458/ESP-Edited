@@ -233,7 +233,7 @@ public class SendVoicActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String url = getString(R.string.server)+getString(R.string.path_1)+"?op="+op+"&msg="+encodedMessage+
+        String url = getString(R.string.server)+getString(R.string.path_1)+"?op="+op+"&msg_icon="+encodedMessage+
                 "&lat="+latitude+"&lon="+longitude;
 
         Log.d("URL",url);

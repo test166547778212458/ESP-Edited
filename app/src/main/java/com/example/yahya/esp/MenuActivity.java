@@ -1,26 +1,27 @@
 package com.example.yahya.esp;
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
-
-import connection.RequestQueueSingleton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 
 public class MenuActivity extends AppCompatActivity{
     private static final String TAG = MenuActivity.class.getSimpleName();
+
+    Context context;
+    BroadcastReceiver updateUIReciver;
 
     private AlertDialog.Builder inExit_adb;
     private AlertDialog inExit_ad;
@@ -31,6 +32,13 @@ public class MenuActivity extends AppCompatActivity{
     private AlertDialog.Builder info_adb;
     private AlertDialog info_ad;
 
+    Boolean ConnState = false;
+
+    ImageView iv;
+    ImageButton record_icon;
+    ImageButton msg_icon;
+    ImageButton sos_icon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +46,39 @@ public class MenuActivity extends AppCompatActivity{
         onExit_dialog();
         onInfo_dialog();
         noInternetDialog();
+
+        iv = (ImageView) findViewById(R.id.conn_state);
+        msg_icon = (ImageButton) findViewById(R.id.msg_icon);
+        record_icon = (ImageButton) findViewById(R.id.record_icon);
+        sos_icon = (ImageButton) findViewById(R.id.sos_icon);
+
+        if(isNetworkAvailable()){
+            ConnState = true;
+            iv.setImageResource(R.drawable.yes);
+            msg_icon.setImageResource(R.drawable.msg_icon);
+            record_icon.setImageResource(R.drawable.record_icon);
+            sos_icon.setImageResource(R.drawable.sos_icon);
+        }else{
+            ConnState = false;
+            iv.setImageResource(R.drawable.no);
+            msg_icon.setImageResource(R.drawable.msg2);
+            record_icon.setImageResource(R.drawable.record2);
+            sos_icon.setImageResource(R.drawable.sos2);
+        }
+
+        context = this;
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("service.to.activity.transfer");
+        updateUIReciver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                changeView(intent.getIntExtra("state",-1));
+
+            }
+
+        };
+        registerReceiver(updateUIReciver, filter);
     }
 
     private void onExit_dialog(){
@@ -145,6 +186,22 @@ public class MenuActivity extends AppCompatActivity{
             return;
         }
         startActivity(new Intent(MenuActivity.this, feedbackActivity.class));
+    }
+
+    private void changeView(int state){
+        if(state == 1 && !ConnState){
+            ConnState = true;
+            iv.setImageResource(R.drawable.yes);
+            msg_icon.setImageResource(R.drawable.msg_icon);
+            record_icon.setImageResource(R.drawable.record_icon);
+            sos_icon.setImageResource(R.drawable.sos_icon);
+        }else  if(state == 2 && ConnState){
+            ConnState = false;
+            iv.setImageResource(R.drawable.no);
+            msg_icon.setImageResource(R.drawable.msg2);
+            record_icon.setImageResource(R.drawable.record2);
+            sos_icon.setImageResource(R.drawable.sos2);
+        }else{}
     }
 
     private boolean isNetworkAvailable() {

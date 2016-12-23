@@ -248,6 +248,8 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
         String url = getString(R.string.server)+getString(R.string.path_2)+"?lat="+location.getLatitude()+
                 "&lon="+location.getLongitude();
 
+        Log.e("Location Record",url);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

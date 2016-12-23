@@ -30,11 +30,10 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton2"
+            android:id="@+id/sos_icon"
             android:layout_gravity="left|center_vertical"
             android:layout_marginBottom="50dp"
             android:layout_marginLeft="80dp"
-            android:src="@drawable/sos_icon"
             android:background="#6d96b2"
             android:onClick="SendCoords"
             android:adjustViewBounds="false" />
@@ -53,36 +52,22 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton4"
+            android:id="@+id/record_icon"
             android:layout_gravity="right|center_vertical"
             android:layout_marginTop="50dp"
             android:layout_marginRight="80dp"
-            android:src="@drawable/record"
             android:onClick="goToRecScrn"
             android:background="#6d96b2" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton5"
+            android:id="@+id/msg_icon"
             android:layout_gravity="left|center_vertical"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="50dp"
             android:background="#6d96b2"
-            android:onClick="goToMsgScrn"
-            android:src="@drawable/msg" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:id="@+id/imageButton6"
-            android:layout_gravity="left|bottom"
-            android:layout_marginBottom="70dp"
-            android:layout_marginLeft="80dp"
-            android:background="#6d96b2"
-            android:onClick="goToContScrn"
-            android:src="@drawable/contactus" />
+            android:onClick="goToMsgScrn" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -117,6 +102,12 @@
             android:layout_marginStart="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginBottom="15dp" />
+
+        <ImageView
+            android:id="@+id/conn_state"
+            android:padding="10dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
 
     </FrameLayout>
 </LinearLayout>
