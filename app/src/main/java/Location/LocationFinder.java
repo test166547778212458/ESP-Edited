@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -35,6 +36,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import connection.RequestQueueSingleton;
 
@@ -62,6 +65,8 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     private DateFormat df;
     private Date d;
 
+    String url;
+
     private static final int PERMISSION_REQUEST_CODE = 112;
 
     public static LocationFinder getInstance(){
@@ -73,6 +78,8 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     public void onCreate() {
         super.onCreate();
         Instance = this;
+
+        url = getString(R.string.server)+getString(R.string.path_2);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -244,27 +251,37 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     }
 
     private void sendLocation(){
-
-        String url = getString(R.string.server)+getString(R.string.path_2)+"?lat="+location.getLatitude()+
-                "&lon="+location.getLongitude();
-
-        Log.e("Location Record",url);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("onResponse",response);
+                        // response
+                        //
+                        // Log.d("Response", response);
+//                        Toast.makeText(MainActivity.this,"Response "+response,Toast.LENGTH_SHORT).show();
                     }
-                }, new Response.ErrorListener() {
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+//                        Log.d("Error.Response", error.getMessage());
+                    }
+                }
+        ) {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        });
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("lat", String.valueOf(location.getLatitude()));
+                params.put("lon", String.valueOf(location.getLongitude()));
 
-        // Add the request to the RequestQueue.
-        rqs.addToRequestQueue(stringRequest);
+                return params;
+            }
+        };
+        rqs.addToRequestQueue(postRequest);
     }
 
     public GoogleApiClient getGoogleApiClient(){

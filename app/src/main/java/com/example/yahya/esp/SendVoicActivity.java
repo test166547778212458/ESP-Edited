@@ -31,7 +31,9 @@ import connection.RequestQueueSingleton;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class SendVoicActivity extends AppCompatActivity {
     private static final String TAG = SendVoicActivity.class.getSimpleName();
@@ -51,10 +53,15 @@ public class SendVoicActivity extends AppCompatActivity {
     private AlertDialog failed_ad;
     private AlertDialog succeed_ad;
 
+    String url;
+    String encodedMessage = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send_voice_message);
+
+        url = getString(R.string.server)+getString(R.string.path_1);
 
         message = (EditText) findViewById(R.id.editText);
 
@@ -223,40 +230,50 @@ public class SendVoicActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void sendDataToServer(String msg, final int op){
+    private void sendDataToServer(final String msg, final int op){
         showpDialog();
 
-        String encodedMessage = null;
-        try {
-            encodedMessage = URLEncoder.encode(msg, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        encodedMessage="";
+//        try {
+//            encodedMessage = URLEncoder.encode(msg, "utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
-        String url = getString(R.string.server)+getString(R.string.path_1)+"?op="+op+"&msg_icon="+encodedMessage+
-                "&lat="+latitude+"&lon="+longitude;
-
-        Log.d("URL",url);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("onResponse",response);
+                        message.setText("");
                         hidepDialog();
                         succeed_ad.show();
                     }
-                }, new Response.ErrorListener() {
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        hidepDialog();
+                        failed_ad.show();
+                    }
+                }
+        ) {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                hidepDialog();
-                failed_ad.show();
-            }
-        });
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("op", String.valueOf(op));
+                params.put("lat", String.valueOf(latitude));
+                params.put("lon", String.valueOf(longitude));
+                params.put("msg", msg);
 
-        message.setText("");
-        // Add the request to the RequestQueue.
-        LocationFinder.getInstance().getRequestQueueSingleton().addToRequestQueue(stringRequest);
+                return params;
+            }
+        };
+
+        LocationFinder.getInstance().getRequestQueueSingleton().addToRequestQueue(postRequest);
     }
 
     private void showpDialog() {
