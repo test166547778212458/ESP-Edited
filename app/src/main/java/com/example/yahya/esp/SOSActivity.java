@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -146,7 +147,7 @@ public class SOSActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("onResponse",response);
+                        Log.i("VOLLEY", response);
                         hidepDialog();
                         succeed_ad.show();
                     }
@@ -155,7 +156,7 @@ public class SOSActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyLog.e("onErrorResponse", "Error: " + error.getMessage());
+                        Log.e("VOLLEY", error.toString());
                         hidepDialog();
                         failed_ad.show();
                     }
@@ -168,10 +169,8 @@ public class SOSActivity extends AppCompatActivity {
                 params.put("op", String.valueOf(op));
                 params.put("lat", String.valueOf(latitude));
                 params.put("lon", String.valueOf(longitude));
-
                 return params;
             }
-
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
@@ -180,13 +179,13 @@ public class SOSActivity extends AppCompatActivity {
                 }
                 return super.parseNetworkResponse(response);
             }
-
-
-
         };
 
-        LocationFinder.getInstance().getRequestQueueSingleton().addToRequestQueue(postRequest);
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
+        LocationFinder.getInstance().getRequestQueueSingleton().addToRequestQueue(postRequest);
     }
 
     private void showpDialog() {

@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -256,18 +257,14 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
                 {
                     @Override
                     public void onResponse(String response) {
-                        // response
-                        //
-                        // Log.d("Response", response);
-//                        Toast.makeText(MainActivity.this,"Response "+response,Toast.LENGTH_SHORT).show();
+                        Log.i("VOLLEY", response);
                     }
                 },
                 new Response.ErrorListener()
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // error
-//                        Log.d("Error.Response", error.getMessage());
+                        Log.e("VOLLEY", error.toString());
                     }
                 }
         ) {
@@ -277,10 +274,14 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("lat", String.valueOf(location.getLatitude()));
                 params.put("lon", String.valueOf(location.getLongitude()));
-
                 return params;
             }
         };
+
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         rqs.addToRequestQueue(postRequest);
     }
 

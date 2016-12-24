@@ -17,11 +17,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -49,7 +51,6 @@ public class SendMsgActivity extends AppCompatActivity {
     private AlertDialog succeed_ad;
 
     String url;
-    String encodedMessage = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,20 +179,12 @@ public class SendMsgActivity extends AppCompatActivity {
     private void sendDataToServer(final String msg, final int op){
         showpDialog();
 
-//        encodedMessage="";
-//        try {
-//            encodedMessage = URLEncoder.encode(msg, "utf-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        Log.e("encodedMessage",encodedMessage);
-
-
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
+                        Log.i("VOLLEY", response);
                         message.setText("");
                         hidepDialog();
                         succeed_ad.show();
@@ -201,7 +194,7 @@ public class SendMsgActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        Log.e("VOLLEY", error.toString());
                         hidepDialog();
                         failed_ad.show();
                     }
@@ -215,10 +208,13 @@ public class SendMsgActivity extends AppCompatActivity {
                 params.put("lat", String.valueOf(latitude));
                 params.put("lon", String.valueOf(longitude));
                 params.put("msg", msg);
-
                 return params;
             }
         };
+
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         LocationFinder.getInstance().getRequestQueueSingleton().addToRequestQueue(postRequest);
     }
@@ -232,7 +228,5 @@ public class SendMsgActivity extends AppCompatActivity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-
-
 }
 
