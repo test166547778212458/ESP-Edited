@@ -151,7 +151,7 @@ public class MenuActivity extends AppCompatActivity{
 
     public void startCall(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("tel:900"));
+        intent.setData(Uri.parse("tel:911"));
         startActivity(intent);
     }
 

@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,14 +59,13 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     RequestQueueSingleton rqs;
     boolean mBounded;
 
-    private SharedPreferences sp;
-    private SharedPreferences.Editor spE;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
     private static final String filename = "ESP";
-    private static final String LSL = "LSL";
+    private static final String lastStoredLocation = "LSL";
 
-    private SimpleDateFormat sdf;
-    private DateFormat df;
-    private Date d;
+    final private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:DD:HH:mm");
+    private Date currentdate;
 
     String url;
 
@@ -93,8 +94,8 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
         locationRequest.setFastestInterval(15 * 1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        sp = getSharedPreferences(filename, 0);
-        spE = sp.edit();
+        sharedPreferences = getSharedPreferences(filename, 0);
+        sharedPreferencesEditor = sharedPreferences.edit();
 
         Intent mIntent = new Intent(this, RequestQueueSingleton.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
@@ -132,7 +133,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
-        }, 3000);
+        }, 1500);
     }
 
     public void askPermission(){
@@ -141,7 +142,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
             public void run() {
                 getPermission();
             }
-        }, 3000);
+        }, 1500);
     }
 
     public void closeApp(){
@@ -150,7 +151,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
             public void run() {
                 activity.finish();
             }
-        }, 3000);
+        }, 1500);
     }
 
     public void getPermission() {
@@ -210,45 +211,35 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     }
 
     private void sendLocationToServer(){
-        d = Calendar.getInstance().getTime();
-        df = new SimpleDateFormat("d:M:H:m");
+        currentdate = Calendar.getInstance().getTime();
 
-        String currentDate = df.format(d);
-        String spDate = sp.getString(LSL,"");
+        String previousDateString = sharedPreferences.getString(lastStoredLocation,"");
 
-        //if spDate is empty that mean never sent location to the server
-        if(spDate.length() == 0){
-            spE.putString(LSL,df.format(d)).commit();
+        if(TextUtils.isEmpty(previousDateString)){
+            String currentdateString = simpleDateFormat.format(currentdate);
+            sharedPreferencesEditor.putString(lastStoredLocation,currentdateString).commit();
             sendLocation();
             return;
         }
 
-        String[] currentDateArray = currentDate.split(":");
-        String[] spDateArray = spDate.split(":");
+        Date previousDate = null;
 
-        //compare months
-        if(Integer.valueOf(currentDateArray[1]) > Integer.valueOf(spDateArray[1]))
-        {
-            spE.putString(LSL,df.format(d)).commit();
+        try {
+            previousDate = simpleDateFormat.parse(previousDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        long difference_in_ms = currentdate.getTime()-previousDate.getTime();
+        long difference_in_s = difference_in_ms/1000;
+        long difference_in_m = difference_in_s/60;
+
+        if(Math.abs(difference_in_m) > 30){
+            String currentdateString = simpleDateFormat.format(currentdate);
+            sharedPreferencesEditor.putString(lastStoredLocation,currentdateString).commit();
             sendLocation();
         }
-        //compare days
-        else if(Integer.valueOf(currentDateArray[0]) > Integer.valueOf(spDateArray[0]))
-        {
-            spE.putString(LSL,df.format(d)).commit();
-            sendLocation();
-        }
-        //compare hours
-        else if(Integer.valueOf(currentDateArray[2]) > Integer.valueOf(spDateArray[2]))
-        {
-            spE.putString(LSL,df.format(d)).commit();
-            sendLocation();
-        }
-        //compare minutes
-        else if(Integer.valueOf(currentDateArray[3]) > (Integer.valueOf(spDateArray[3])+30)){
-            spE.putString(LSL,df.format(d)).commit();
-            sendLocation();
-        }else{}
     }
 
     private void sendLocation(){
