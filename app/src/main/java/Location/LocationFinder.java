@@ -64,7 +64,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
     private static final String filename = "ESP";
     private static final String lastStoredLocation = "LSL";
 
-    final private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:DD:HH:mm");
+    final private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd:HH:mm");
     private Date currentdate;
 
     String url;
