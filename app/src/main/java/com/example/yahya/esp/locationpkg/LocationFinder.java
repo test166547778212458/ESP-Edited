@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.multidex.MultiDexApplication;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,7 +43,7 @@ import java.util.Map;
 import com.example.yahya.esp.connection.RequestQueueSingleton;
 
 
-public class LocationFinder extends Application implements GoogleApiClient.ConnectionCallbacks,
+public class LocationFinder extends MultiDexApplication implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener{
 
     private static final String TAG = LocationFinder.class.getSimpleName();
