@@ -1,18 +1,14 @@
-package com.example.yahya.esp;
+package com.example.yahya.esp.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.IBinder;
-import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,25 +19,20 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yahya.esp.R;
 
-import Location.LocationFinder;
-import connection.RequestQueueSingleton;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-public class SendVoicActivity extends AppCompatActivity {
-    private static final String TAG = SendVoicActivity.class.getSimpleName();
+import com.example.yahya.esp.db.config;
+import com.example.yahya.esp.locationpkg.LocationFinder;
+
+public class SendMsgActivity extends AppCompatActivity {
+    private static final String TAG = SendMsgActivity.class.getSimpleName();
     double longitude;
     double latitude;
 
-    private final int SPEECH_RECOGNITION_CODE = 1;
     private EditText message;
 
     private ProgressDialog pDialog;
@@ -56,10 +47,14 @@ public class SendVoicActivity extends AppCompatActivity {
 
     String url;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.send_voice_message);
+        setContentView(R.layout.send_message);
+
+        sharedPreferences = getSharedPreferences(config.SHARED_PREF,0);
 
         url = getString(R.string.server)+getString(R.string.path_1);
 
@@ -143,61 +138,6 @@ public class SendVoicActivity extends AppCompatActivity {
         succeed_ad = succeed_adb.create();
     }
 
-    public void speechtotextClick(View view){
-        if(!isNetworkAvailable()){
-            noInternet_ad.show();
-            //Toast.makeText(this,"You need Internet connection to use this function.",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //request component from speech recognition
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        //required for the intent.
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        //check if the language of the device is arabic then make reqognizer arabic otherwise english.
-        String dl = Locale.getDefault().toString().charAt(0)+""+Locale.getDefault().toString().charAt(1);
-        if(dl.equals("ar")){
-            System.out.println("Language is arabic");
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ar_SA");
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"قل شيئا...");
-        }else {
-            System.out.println("Language is English");
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak something...");
-        }
-        try {
-            //start recognizer.
-            startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
-        } catch (ActivityNotFoundException a) {
-            if(dl.equals("ar")){
-                Toast.makeText(getApplicationContext(),"نأسف, خاصية التعرف على الصوت غير مدعوم في جهازك.",
-                        Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(getApplicationContext(),"Sorry! Speech recognition is not supported in this device.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        switch (requestCode) {
-            case SPEECH_RECOGNITION_CODE: {
-                if (resultCode == RESULT_OK && null != intent) {
-                    ArrayList<String> result = intent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String text = result.get(0);
-                    message.setText(message.getText().toString()+text);
-                }
-                break;
-            }
-        }
-    }
-
-    public void back(View view) {
-        finish();
-    }
-
-
     public void send(View view){
         if(!isNetworkAvailable()){
             //Toast.makeText(this,"You need Internet connection to Send.",Toast.LENGTH_SHORT).show();
@@ -206,7 +146,7 @@ public class SendVoicActivity extends AppCompatActivity {
         }
 
         if(message.getText().toString().length() == 0){
-            //Toast.makeText(this,"Please click on mic to convert your voice to text",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"Please Enter your message",Toast.LENGTH_SHORT).show();
             noText_ad.show();
             return;
         }
@@ -220,8 +160,19 @@ public class SendVoicActivity extends AppCompatActivity {
             return;
         }
 
-        sendDataToServer(message.getText().toString(),1);
+        String regId = sharedPreferences.getString(config.tokenId,"");
+        if(TextUtils.isEmpty(regId)){
+            Toast.makeText(this,"You cannot communicate with the server",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        sendDataToServer(message.getText().toString(), regId, 1);
     }
+
+    public void back(View view) {
+        finish();
+    }
+
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -230,7 +181,7 @@ public class SendVoicActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void sendDataToServer(final String msg, final int op){
+    private void sendDataToServer(final String msg, final String regId, final int op){
         showpDialog();
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -262,6 +213,7 @@ public class SendVoicActivity extends AppCompatActivity {
                 params.put("lat", String.valueOf(latitude));
                 params.put("lon", String.valueOf(longitude));
                 params.put("msg", msg);
+                params.put("regId", regId);
                 return params;
             }
         };

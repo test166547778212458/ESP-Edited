@@ -1,4 +1,4 @@
-package connection;
+package com.example.yahya.esp.connection;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,4 +29,6 @@ public class onConnectionChange extends BroadcastReceiver {
         local.putExtra("state", state);
         context.sendBroadcast(local);
     }
+
+
 }

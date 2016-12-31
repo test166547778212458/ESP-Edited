@@ -1,4 +1,4 @@
-package com.example.yahya.esp;
+package com.example.yahya.esp.activity;
 
 
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.yahya.esp.R;
 
 public class firstaidActivity extends AppCompatActivity {
     private static final String TAG = firstaidActivity.class.getSimpleName();

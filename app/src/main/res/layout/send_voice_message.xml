@@ -6,7 +6,7 @@
     android:weightSum="1"
     android:orientation="vertical"
     android:background="#6d96b2"
-    tools:context=".SendVoicActivity">
+    tools:context=".activity.SendVoicActivity">
 
     <FrameLayout
         android:layout_width="match_parent"

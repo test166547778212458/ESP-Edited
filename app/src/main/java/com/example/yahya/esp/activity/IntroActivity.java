@@ -1,16 +1,15 @@
-package com.example.yahya.esp;
+package com.example.yahya.esp.activity;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import Location.LocationFinder;
+import com.example.yahya.esp.R;
+import com.example.yahya.esp.locationpkg.LocationFinder;
 
 public class IntroActivity extends Activity {
     private static final String TAG = IntroActivity.class.getSimpleName();
-    double longitude;
-    double latitude;
     private static final int PERMISSION_REQUEST_CODE = 112;
 
     @Override

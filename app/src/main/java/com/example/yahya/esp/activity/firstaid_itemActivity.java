@@ -1,4 +1,4 @@
-package com.example.yahya.esp;
+package com.example.yahya.esp.activity;
 
 
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.yahya.esp.R;
 
 public class firstaid_itemActivity extends AppCompatActivity{
     private static final String TAG = firstaid_itemActivity.class.getSimpleName();

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "579175776097",
+    "firebase_url": "https://esp-fp.firebaseio.com",
+    "project_id": "esp-fp",
+    "storage_bucket": "esp-fp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579175776097:android:8c1d82be6dc7ee50",
+        "android_client_info": {
+          "package_name": "com.example.yahya.esp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579175776097-via758jdejdsrjki9di8t1nhioocmrst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.yahya.esp",
+            "certificate_hash": "A86DAED0002B9B7B2C7B2778EF9D0C7F19C641B2"
+          }
+        },
+        {
+          "client_id": "579175776097-fkr6k4vd509si9crsltbgpv6bst3pqvi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClIZcMv49tGIdNUiaU0pYMAEHlrqqZOrI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579175776097-fkr6k4vd509si9crsltbgpv6bst3pqvi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

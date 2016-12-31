@@ -1,4 +1,4 @@
-package com.example.yahya.esp;
+package com.example.yahya.esp.activity;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -16,12 +16,15 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.yahya.esp.R;
+
 
 public class MenuActivity extends AppCompatActivity{
     private static final String TAG = MenuActivity.class.getSimpleName();
 
     Context context;
     BroadcastReceiver updateUIReciver;
+    IntentFilter filter;
 
     private AlertDialog.Builder inExit_adb;
     private AlertDialog inExit_ad;
@@ -38,6 +41,7 @@ public class MenuActivity extends AppCompatActivity{
     ImageButton record_icon;
     ImageButton msg_icon;
     ImageButton sos_icon;
+    ImageButton chat_icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class MenuActivity extends AppCompatActivity{
         msg_icon = (ImageButton) findViewById(R.id.msg_icon);
         record_icon = (ImageButton) findViewById(R.id.record_icon);
         sos_icon = (ImageButton) findViewById(R.id.sos_icon);
+        chat_icon = (ImageButton) findViewById(R.id.chat_icon);
 
         if(isNetworkAvailable()){
             ConnState = true;
@@ -68,17 +73,28 @@ public class MenuActivity extends AppCompatActivity{
 
         context = this;
 
-        IntentFilter filter = new IntentFilter();
+        filter = new IntentFilter();
         filter.addAction("service.to.activity.transfer");
         updateUIReciver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 changeView(intent.getIntExtra("state",-1));
-
             }
 
         };
+//        registerReceiver(updateUIReciver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(updateUIReciver);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
         registerReceiver(updateUIReciver, filter);
+        super.onResume();
     }
 
     private void onExit_dialog(){
@@ -153,6 +169,10 @@ public class MenuActivity extends AppCompatActivity{
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("tel:911"));
         startActivity(intent);
+    }
+
+    public void chatLayout(View view) {
+        startActivity(new Intent(this,ChatActivity.class));
     }
 
     public void goToMsgScrn(View view) {

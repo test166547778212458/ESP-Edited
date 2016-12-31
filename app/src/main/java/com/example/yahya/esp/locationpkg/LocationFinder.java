@@ -1,4 +1,4 @@
-package Location;
+package com.example.yahya.esp.locationpkg;
 
 import android.app.Activity;
 import android.app.Application;
@@ -18,15 +18,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.example.yahya.esp.PinActivity;
+import com.example.yahya.esp.activity.PinActivity;
 import com.example.yahya.esp.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,7 +32,6 @@ import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,7 +39,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import connection.RequestQueueSingleton;
+import com.example.yahya.esp.connection.RequestQueueSingleton;
 
 
 public class LocationFinder extends Application implements GoogleApiClient.ConnectionCallbacks,
@@ -133,7 +130,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
-        }, 1500);
+        }, 1000);
     }
 
     public void askPermission(){
@@ -142,7 +139,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
             public void run() {
                 getPermission();
             }
-        }, 1500);
+        }, 1000);
     }
 
     public void closeApp(){
@@ -151,7 +148,7 @@ public class LocationFinder extends Application implements GoogleApiClient.Conne
             public void run() {
                 activity.finish();
             }
-        }, 1500);
+        }, 1000);
     }
 
     public void getPermission() {

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
-    tools:context="com.example.yahya.esp.MenuActivity">
+    tools:context="com.example.yahya.esp.activity.MenuActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton3"
+            android:id="@+id/call_icon"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="80dp"
             android:layout_marginBottom="50dp"
@@ -72,7 +72,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton7"
+            android:id="@+id/firstaid_icon"
             android:layout_gravity="right|bottom"
             android:background="#6d96b2"
             android:layout_marginBottom="70dp"
@@ -83,7 +83,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton8"
+            android:id="@+id/shutdown_icon"
             android:layout_gravity="right|top"
             android:background="#6d96b2"
             android:layout_marginTop="20dp"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:src="@android:drawable/ic_dialog_info"
-            android:id="@+id/imageButton13"
+            android:id="@+id/info_icon"
             android:onClick="info"
             android:background="#6d96b2"
             android:layout_marginStart="15dp"
@@ -108,6 +108,17 @@
             android:padding="10dp"
             android:layout_width="80dp"
             android:layout_height="80dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:src="@drawable/chat_icon"
+            android:id="@+id/chat_icon"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="70dp"
+            android:layout_marginLeft="80dp"
+            android:onClick="chatLayout" />
 
     </FrameLayout>
 </LinearLayout>

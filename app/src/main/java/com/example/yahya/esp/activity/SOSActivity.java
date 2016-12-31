@@ -1,79 +1,72 @@
-package com.example.yahya.esp;
+package com.example.yahya.esp.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.yahya.esp.R;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import Location.LocationFinder;
-import connection.RequestQueueSingleton;
+import com.example.yahya.esp.db.config;
+import com.example.yahya.esp.locationpkg.LocationFinder;
 
-public class SendMsgActivity extends AppCompatActivity {
-    private static final String TAG = SendMsgActivity.class.getSimpleName();
-    double longitude;
+
+public class SOSActivity extends AppCompatActivity {
+    private static final String TAG = SOSActivity.class.getSimpleName();
     double latitude;
-
-    private EditText message;
+    double longitude;
 
     private ProgressDialog pDialog;
     private AlertDialog.Builder noInternet_adb;
-    private AlertDialog.Builder noText_adb;
     private AlertDialog.Builder failed_adb;
     private AlertDialog.Builder succeed_adb;
     private AlertDialog noInternet_ad;
-    private AlertDialog noText_ad;
     private AlertDialog failed_ad;
     private AlertDialog succeed_ad;
 
     String url;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.send_message);
+        setContentView(R.layout.sos_layout);
+
+        sharedPreferences = getSharedPreferences(config.SHARED_PREF,0);
 
         url = getString(R.string.server)+getString(R.string.path_1);
 
-        message = (EditText) findViewById(R.id.editText);
-
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Sending...");
         pDialog.setCancelable(false);
 
         noInternetDialog();
-        noTextDialog();
         failedDialog();
         succeedDialog();
     }
 
     private void noInternetDialog(){
         noInternet_adb = new AlertDialog.Builder(this);
-        noInternet_adb.setMessage("Speech to Text Request");
+        noInternet_adb.setMessage("SOS Request");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -88,26 +81,9 @@ public class SendMsgActivity extends AppCompatActivity {
         noInternet_ad = noInternet_adb.create();
     }
 
-    private void noTextDialog(){
-        noText_adb = new AlertDialog.Builder(this);
-        noText_adb.setMessage("Speech to Text Request");
-
-        //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
-        //this app minimum api is 18
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.notext_dialog, null);
-
-        noText_adb.setView(v);
-
-        noText_adb.setCancelable(false);
-        noText_adb.setPositiveButton("OK", null);
-
-        noText_ad = noText_adb.create();
-    }
-
     private void failedDialog(){
         failed_adb = new AlertDialog.Builder(this);
-        failed_adb.setMessage("Speech to Text Request");
+        failed_adb.setMessage("SOS Request");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -124,7 +100,7 @@ public class SendMsgActivity extends AppCompatActivity {
 
     private void succeedDialog(){
         succeed_adb = new AlertDialog.Builder(this);
-        succeed_adb.setMessage("Speech to Text Request");
+        succeed_adb.setMessage("SOS Request");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -146,12 +122,6 @@ public class SendMsgActivity extends AppCompatActivity {
             return;
         }
 
-        if(message.getText().toString().length() == 0){
-            //Toast.makeText(this,"Please Enter your message",Toast.LENGTH_SHORT).show();
-            noText_ad.show();
-            return;
-        }
-
         try {
             longitude = LocationFinder.getInstance().getLocation().getLongitude();
             latitude = LocationFinder.getInstance().getLocation().getLatitude();
@@ -161,13 +131,14 @@ public class SendMsgActivity extends AppCompatActivity {
             return;
         }
 
-        sendDataToServer(message.getText().toString(),1);
-    }
+        String regId = sharedPreferences.getString(config.tokenId,"");
+        if(TextUtils.isEmpty(regId)){
+            Toast.makeText(this,"You cannot communicate with the server",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-    public void back(View view) {
-        finish();
+        sendDataToServer(regId,2);
     }
-
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -176,7 +147,7 @@ public class SendMsgActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void sendDataToServer(final String msg, final int op){
+    private void sendDataToServer(final String regId, final int op){
         showpDialog();
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -185,7 +156,6 @@ public class SendMsgActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.i("VOLLEY", response);
-                        message.setText("");
                         hidepDialog();
                         succeed_ad.show();
                     }
@@ -207,8 +177,16 @@ public class SendMsgActivity extends AppCompatActivity {
                 params.put("op", String.valueOf(op));
                 params.put("lat", String.valueOf(latitude));
                 params.put("lon", String.valueOf(longitude));
-                params.put("msg", msg);
+                params.put("regId", regId);
                 return params;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                if (response != null) {
+                    Log.e("Request Code",String.valueOf(response.statusCode));
+                }
+                return super.parseNetworkResponse(response);
             }
         };
 
@@ -228,5 +206,7 @@ public class SendMsgActivity extends AppCompatActivity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-}
 
+    public void back(View view){ finish();}
+
+}

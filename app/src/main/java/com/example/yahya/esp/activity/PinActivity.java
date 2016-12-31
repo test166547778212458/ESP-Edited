@@ -1,4 +1,4 @@
-package com.example.yahya.esp;
+package com.example.yahya.esp.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.yahya.esp.R;
 
 import java.util.Random;
 
