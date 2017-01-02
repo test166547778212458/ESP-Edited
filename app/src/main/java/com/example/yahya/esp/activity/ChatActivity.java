@@ -93,7 +93,6 @@ public class ChatActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("Activity status","onResume");
         // register new push message receiver
         // by doing this, the activity will be notified each time a new message arrives
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
@@ -105,7 +104,6 @@ public class ChatActivity extends AppCompatActivity{
 
     @Override
     protected void onPause() {
-        Log.e("Activity status","onPause");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         finish();
         super.onPause();

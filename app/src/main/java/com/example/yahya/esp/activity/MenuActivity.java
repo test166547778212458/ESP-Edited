@@ -57,6 +57,35 @@ public class MenuActivity extends AppCompatActivity{
         sos_icon = (ImageButton) findViewById(R.id.sos_icon);
         chat_icon = (ImageButton) findViewById(R.id.chat_icon);
 
+        DynamicLayout();
+
+        context = this;
+
+        filter = new IntentFilter();
+        filter.addAction("service.to.activity.transfer");
+        updateUIReciver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                changeView(intent.getIntExtra("state",-1));
+            }
+
+        };
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(updateUIReciver);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        DynamicLayout();
+        registerReceiver(updateUIReciver, filter);
+        super.onResume();
+    }
+
+    private void DynamicLayout(){
         if(isNetworkAvailable()){
             ConnState = true;
             iv.setImageResource(R.drawable.yes);
@@ -70,31 +99,6 @@ public class MenuActivity extends AppCompatActivity{
             record_icon.setImageResource(R.drawable.record2);
             sos_icon.setImageResource(R.drawable.sos2);
         }
-
-        context = this;
-
-        filter = new IntentFilter();
-        filter.addAction("service.to.activity.transfer");
-        updateUIReciver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                changeView(intent.getIntExtra("state",-1));
-            }
-
-        };
-//        registerReceiver(updateUIReciver, filter);
-    }
-
-    @Override
-    protected void onPause() {
-        unregisterReceiver(updateUIReciver);
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        registerReceiver(updateUIReciver, filter);
-        super.onResume();
     }
 
     private void onExit_dialog(){

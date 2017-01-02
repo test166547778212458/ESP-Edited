@@ -78,7 +78,7 @@ public class SendVoicActivity extends AppCompatActivity {
 
     private void noInternetDialog(){
         noInternet_adb = new AlertDialog.Builder(this);
-        noInternet_adb.setMessage("Speech to Text Request");
+        noInternet_adb.setMessage("Speech to Text");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -95,7 +95,7 @@ public class SendVoicActivity extends AppCompatActivity {
 
     private void noTextDialog(){
         noText_adb = new AlertDialog.Builder(this);
-        noText_adb.setMessage("Speech to Text Request");
+        noText_adb.setMessage("Speech to Text");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -112,7 +112,7 @@ public class SendVoicActivity extends AppCompatActivity {
 
     private void failedDialog(){
         failed_adb = new AlertDialog.Builder(this);
-        failed_adb.setMessage("Speech to Text Request");
+        failed_adb.setMessage("Speech to Text");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
@@ -129,7 +129,7 @@ public class SendVoicActivity extends AppCompatActivity {
 
     private void succeedDialog(){
         succeed_adb = new AlertDialog.Builder(this);
-        succeed_adb.setMessage("Speech to Text Request");
+        succeed_adb.setMessage("Speech to Text");
 
         //you can use db.setView(R.layout.layoutname) but it requires 21 api and above,
         //this app minimum api is 18
